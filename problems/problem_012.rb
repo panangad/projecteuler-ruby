@@ -22,22 +22,21 @@ What is the value of the first triangle number to have over five hundred divisor
 
 =end
 
-require 'prime'
-
 def divi_ct(n)
+  i = 2
+  f = n
   ct = 2
-  (2..n/2+1).each{|x| ct = ct + 1 if n % x == 0}
+  while i < f
+  	f,r = n.divmod(i)
+  	i = i + 1
+  	ct = ct + 2 if r == 0
+  end
   ct
 end
 
-def divi_ct2(n)
-  n.prime_division.map{|x,y| 2**y}.reduce(&:+).to_i
-end
-
-
 i = 1
 tr = 0
-while divi_ct( tr = (i.times.map{|x| x+1}.reduce(&:+))) < 150
+while divi_ct( tr = (i.times.map{|x| x+1}.reduce(&:+))) < 500
 	i = i + 1
 end
 puts tr

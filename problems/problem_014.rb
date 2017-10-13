@@ -1,15 +1,45 @@
 =begin
 
-Problem 10
+Problem 14
 
 
-The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+The following iterative sequence is defined for the set of positive integers:
 
-Find the sum of all the primes below two million.
+n → n/2 (n is even)
+n → 3n + 1 (n is odd)
+
+Using the rule above and starting with 13, we generate the following sequence:
+
+13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
+
+Which starting number, under one million, produces the longest chain?
+
+NOTE: Once the chain starts the terms are allowed to go above one million.
 
 =end
 
-require 'prime'
+def c_collatz(n)
+  ct = 1
+  while n > 1
+    f,r = n.divmod 2
+    if r == 0
+      n = f
+    else
+      n = 3 * n + 1
+    end
+    ct = ct + 1
+  end
+  ct
+end
 
-num = (3..2000000).step(2).select{|x| x.prime?}.reduce(&:+) + 2
-puts num
+mvl = 0
+mn = 0
+(1..1000000).each do |n|
+  ct = c_collatz(n)
+  if ct > mvl
+    mvl = ct
+    mn = n
+  end
+end
+puts mn
